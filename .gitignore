@@ -1,0 +1,12 @@
+logs
+target
+/.classpath
+/.project
+/.settings
+/RUNNING_PID
+
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/.terraform/*
+
+.idea

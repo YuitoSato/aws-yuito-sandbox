@@ -1,0 +1,10 @@
+version: '3'
+services:
+  go-api:
+    container_name: go_api
+    build:
+      context: ./go-api
+    volumes:
+      - ./go-api/:/go/
+    ports:
+      - '8080:8080'

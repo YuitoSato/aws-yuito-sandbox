@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn: arn:aws:iam::417025923863:role/yuito-eks-node-group-stack-NodeInstanceRole-15L552CRI8QE5
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+    - rolearn: arn:aws:iam::417025923863:role/yuito-eks-go-api-codebuild-role
+      username: yuito-eks-go-api-codebuild-role
+      groups:
+        - system:masters
+    - rolearn: arn:aws:iam::417025923863:role/yuito-eks-ops-user-role
+      username: yuito-eks-ops-user-role
+      groups:
+        - system:masters

@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - wget -q -O /usr/local/bin/aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/linux/amd64/aws-iam-authenticator
+      - wget -q -O /usr/local/bin/kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/linux/amd64/kubectl
+      - chmod +x /usr/local/bin/aws-iam-authenticator
+      - chmod +x /usr/local/bin/kubectl
+      - export PATH=$PWD/:$PATH
+      - export KUBECONFIG=$HOME/.kube/config
+  pre_build:
+    commands:
+      - $(aws ecr get-login --no-include-email --region ap-northeast-1)
+  build:
+    commands:
+      - docker build -t aws-yuito-sandbox-go-api:latest go-api
+      - docker tag aws-yuito-sandbox-go-api:latest 417025923863.dkr.ecr.ap-northeast-1.amazonaws.com/yuito-eks-go-api:latest
+  post_build:
+    commands:
+      - docker push 417025923863.dkr.ecr.ap-northeast-1.amazonaws.com/yuito-eks-go-api:latest
+      - aws eks --region ap-northeast-1 update-kubeconfig --name yuito-eks-cluster
+      - kubectl apply -f go-api/go-api-deployment.yml
+      - kubectl apply -f go-api/go-api-service.yml
+artifacts:
+  base-directory: go-api
