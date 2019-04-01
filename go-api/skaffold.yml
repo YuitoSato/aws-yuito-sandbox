@@ -1,0 +1,9 @@
+apiVersion: skaffold/v1beta7
+kind: Config
+build:
+  artifacts:
+  - image: 417025923863.dkr.ecr.ap-northeast-1.amazonaws.com/yuito-eks-go-api
+deploy:
+  kubectl:
+    manifests:
+      - go-api-deployment.yml

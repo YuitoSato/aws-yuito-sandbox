@@ -1,9 +1,0 @@
-apiVersion: skaffold/v1beta7
-kind: Config
-build:
-  artifacts:
-  - image: aws-yuito-sandbox-go-api
-deploy:
-  kubectl:
-    manifests:
-      - go-api-local-deployment.yml
