@@ -9,6 +9,7 @@ phases:
       - chmod +x /usr/local/bin/kubectl
       - export PATH=$PWD/:$PATH
       - export KUBECONFIG=$HOME/.kube/config
+      - chmod g+rwx .git
       - IMAGE_TAG=$(git rev-parse --short HEAD)
   pre_build:
     commands:
