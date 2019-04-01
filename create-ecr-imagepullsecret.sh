@@ -4,7 +4,7 @@
 # Fetch token (which will expire in 12 hours)
 #
 
-TOKEN=`aws ecr get-authorization-token --output text --query authorizationData[].authorizationToken | base64 -D | cut -d: -f2`
+TOKEN=`aws ecr get-authorization-token --output text --query authorizationData[].authorizationToken | base64 --decode | cut -d: -f2`
 
 #
 # Create or repleace registry secret
