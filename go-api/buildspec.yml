@@ -9,16 +9,17 @@ phases:
       - chmod +x /usr/local/bin/kubectl
       - export PATH=$PWD/:$PATH
       - export KUBECONFIG=$HOME/.kube/config
+      - export IMAGE_TAG=$(git rev-parse --short HEAD)
   pre_build:
     commands:
       - $(aws ecr get-login --no-include-email --region ap-northeast-1)
   build:
     commands:
-      - docker build -t aws-yuito-sandbox-go-api:latest go-api
-      - docker tag aws-yuito-sandbox-go-api:latest 417025923863.dkr.ecr.ap-northeast-1.amazonaws.com/yuito-eks-go-api:latest
+      - docker build -t aws-yuito-sandbox-go-api:${IMAGE_TAG} go-api
+      - docker tag aws-yuito-sandbox-go-api:${IMAGE_TAG} 417025923863.dkr.ecr.ap-northeast-1.amazonaws.com/yuito-eks-go-api:${IMAGE_TAG}
   post_build:
     commands:
-      - docker push 417025923863.dkr.ecr.ap-northeast-1.amazonaws.com/yuito-eks-go-api:latest
+      - docker push 417025923863.dkr.ecr.ap-northeast-1.amazonaws.com/yuito-eks-go-api:${IMAGE_TAG}
       - aws eks --region ap-northeast-1 update-kubeconfig --name yuito-eks-cluster
       - kubectl apply -f go-api/go-api-deployment.yml
       - kubectl apply -f go-api/go-api-service.yml
