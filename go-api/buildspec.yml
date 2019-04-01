@@ -9,6 +9,8 @@ phases:
       - chmod +x /usr/local/bin/kubectl
       - export PATH=$PWD/:$PATH
       - export KUBECONFIG=$HOME/.kube/config
+      - export COMMIT_SHA=$CODEBUILD_RESOLVED_SOURCE_VERSION
+      - echo $COMMIT_SHA
   pre_build:
     commands:
       - $(aws ecr get-login --no-include-email --region ap-northeast-1)
