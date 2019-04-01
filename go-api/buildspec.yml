@@ -9,8 +9,6 @@ phases:
       - chmod +x /usr/local/bin/kubectl
       - export PATH=$PWD/:$PATH
       - export KUBECONFIG=$HOME/.kube/config
-      - export COMMIT_SHA=$CODEBUILD_RESOLVED_SOURCE_VERSION
-      - echo $COMMIT_SHA
   pre_build:
     commands:
       - $(aws ecr get-login --no-include-email --region ap-northeast-1)
@@ -23,7 +21,7 @@ phases:
       - docker push 417025923863.dkr.ecr.ap-northeast-1.amazonaws.com/yuito-eks-go-api:${CODEBUILD_RESOLVED_SOURCE_VERSION}
       - aws eks --region ap-northeast-1 update-kubeconfig --name yuito-eks-cluster
       - sh ./create-ecr-imagepullsecret.sh
-      - sed -i -e 's/COMMIT_SHA/${COMMIT_SHA}/' go-api/go-api-deployment.yml
+      - sed -i -e 's/COMMIT_SHA/'"${CODEBUILD_RESOLVED_SOURCE_VERSION}"'/' go-api/go-api-deployment.yml
       - kubectl apply -f go-api/go-api-deployment.yml
       - kubectl apply -f go-api/go-api-service.yml
 artifacts:

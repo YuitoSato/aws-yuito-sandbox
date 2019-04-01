@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: go-api
-          image: 417025923863.dkr.ecr.ap-northeast-1.amazonaws.com/yuito-eks-go-api:1111111
+          image: 417025923863.dkr.ecr.ap-northeast-1.amazonaws.com/yuito-eks-go-api:COMMIT_SHA
           ports:
           - containerPort: 8080
       imagePullSecrets:
