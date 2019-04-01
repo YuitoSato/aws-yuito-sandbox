@@ -9,8 +9,11 @@ phases:
       - chmod +x /usr/local/bin/kubectl
       - export PATH=$PWD/:$PATH
       - export KUBECONFIG=$HOME/.kube/config
-      - chmod g+rwx .git
+      - chmod g+rwx $HOME/.git
       - IMAGE_TAG=$(git rev-parse --short HEAD)
+      - echo $IMAGE_TAG
+      - export IMAGE_TAG=$(git rev-parse --short HEAD)
+      - echo $IMAGE_TAG
   pre_build:
     commands:
       - $(aws ecr get-login --no-include-email --region ap-northeast-1)
