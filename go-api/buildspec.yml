@@ -9,11 +9,11 @@ phases:
       - chmod +x /usr/local/bin/kubectl
       - export PATH=$PWD/:$PATH
       - export KUBECONFIG=$HOME/.kube/config
-      - export IMAGE_TAG=$(git rev-parse --short HEAD)
-      - echo $IMAGE_TAG
   pre_build:
     commands:
       - $(aws ecr get-login --no-include-email --region ap-northeast-1)
+      - export IMAGE_TAG=$(git rev-parse --short HEAD)
+      - echo $IMAGE_TAG
   build:
     commands:
       - docker build -t aws-yuito-sandbox-go-api:${IMAGE_TAG} go-api
